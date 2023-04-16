@@ -2,16 +2,18 @@ let killedHole = document.getElementById("dead");
 let lostedHole = document.getElementById("lost");
 
 let isWin = () => {
-    if (killedHole.textContent >= "10") {
+    if (killedHole.textContent === "10") {
         killedHole.textContent = 0;
+        lostedHole.textContent = 0;
         alert("You win!");
     }
 }
 
 let isLost = () => {
-    if (lostedHole.textContent >= "5" ) {
-        lostedHole.textContent = 0
-        return alert("You lose");
+    if (lostedHole.textContent === "5" ) {
+        lostedHole.textContent = 0;
+        killedHole.textContent = 0;
+        alert("You lose");
     }
 }
 
