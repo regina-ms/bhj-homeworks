@@ -1,4 +1,8 @@
+let sliderItemArr = Array.from(document.querySelectorAll(".slider__item"));
 
+let index = sliderItemArr.findIndex(item => {
+    item.classList.contains("slider__item_active");
+})
 
 
 
