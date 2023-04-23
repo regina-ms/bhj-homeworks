@@ -6,22 +6,20 @@ class Game {
     this.lossElement = container.querySelector('.status__loss');
     this.timer = container.querySelector(".status__timer");
     this.timerId = null;
-
+    
     this.reset();
-
+    
     this.registerEvents();
   }
 
   setTimer() {
     this.timerId = setInterval(() => {
     this.timer.textContent--;
-    }, 1000);
-  
-    setTimeout(() => {
-    clearInterval(this.timerId);  
-    this.fail();
-    }, this.timer.textContent * 1000)
-  }
+    if(Number(this.timer.textContent) === 0) {
+      clearInterval(this.timerId);
+      this.fail();
+    }
+  }, 1000)}
 
   reset() {
     this.setNewWord();
@@ -30,7 +28,7 @@ class Game {
   }      
 
   registerEvents() { 
-    this.currentSymbol = document.querySelector(".symbol_current");
+    this.currentSymbol = document.querySelector(".symbol");
     document.addEventListener("keyup", (e) => {
       if(e.key == "Shift" || e.key == "Alt" || e.key == "Control") {
         return;
@@ -69,11 +67,11 @@ class Game {
   }
 
   setNewWord() {
-    debugger;
+    clearInterval(this.timerId);
     const word = this.getWord();
     this.renderWord(word);
     this.timer.textContent = Array.from(document.querySelectorAll(".symbol")).length;
-    //this.setTimer();
+    this.setTimer();
   }
 
   getWord() {
