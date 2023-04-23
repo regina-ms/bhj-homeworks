@@ -4,28 +4,44 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
+    this.timer = container.querySelector(".status__timer");
+    this.timerId = null;
 
     this.reset();
 
     this.registerEvents();
   }
 
+  setTimer() {
+    this.timerId = setInterval(() => {
+    this.timer.textContent--;
+    }, 1000);
+  
+    setTimeout(() => {
+    clearInterval(this.timerId);  
+    this.fail();
+    }, this.timer.textContent * 1000)
+  }
+
   reset() {
     this.setNewWord();
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
-  }
+  }      
 
-  registerEvents() {
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-      DOM-элемент текущего символа находится в свойстве this.currentSymbol.
-     */
-  }
+  registerEvents() { 
+    this.currentSymbol = document.querySelector(".symbol_current");
+    document.addEventListener("keyup", (e) => {
+      if(e.key == "Shift" || e.key == "Alt" || e.key == "Control") {
+        return;
+      }
+      if(e.key.toLowerCase() === this.currentSymbol.textContent.toLowerCase()) {
+        this.success();
+      } else {
+        this.fail();
+      }
+    })
+  } 
 
   success() {
     if(this.currentSymbol.classList.contains("symbol_current")) this.currentSymbol.classList.remove("symbol_current");
@@ -53,9 +69,11 @@ class Game {
   }
 
   setNewWord() {
+    debugger;
     const word = this.getWord();
-
     this.renderWord(word);
+    this.timer.textContent = Array.from(document.querySelectorAll(".symbol")).length;
+    //this.setTimer();
   }
 
   getWord() {

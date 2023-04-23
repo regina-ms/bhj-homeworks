@@ -3,7 +3,7 @@ let arrowNext = document.querySelector(".slider__arrow_next");
 let arrowPrev = document.querySelector(".slider__arrow_prev");
 let dots = document.querySelectorAll(".slider__dot");
 let position = 0;
-//dots[position].classList.add("slider__dot_active");
+dots[position].classList.add("slider__dot_active");
 
 function findActiveSlide(position) {
     let index = slides.findIndex(item => item.classList.contains("slider__item_active"));
