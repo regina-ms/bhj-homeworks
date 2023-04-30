@@ -2,27 +2,32 @@
 let rotators = Array.from(document.querySelectorAll(".rotator__case"));
 rotators.forEach(item => item.style.color = item.dataset.color);
 
-let active;
 let next;
+let timerId;
+let time;
 
 
 
 let rotate = function () {
-    active = rotators.filter(item => item.classList.contains("rotator__case_active"));
-    active.forEach(item => {
+    if(timerId) {
+        clearTimeout(timerId);
+    }
+    let actives = rotators.filter(item => item.classList.contains("rotator__case_active"));
+    actives.forEach(item => {
         if(item.nextElementSibling === null){
-            next = item.closest(".rotator").querySelector(".rotator__case")
+            next = item.closest(".rotator").firstElementChild; //querySelector(".rotator__case")
         } else {
             next = item.nextElementSibling;
         }
         
         item.classList.remove("rotator__case_active");
         next.classList.add("rotator__case_active"); 
+        timerId = setTimeout(rotate, Number(next.dataset.speed));
         
     })
 }
 
-setInterval(rotate, 1000); 
+setTimeout(rotate, 1000);
 
 
 
