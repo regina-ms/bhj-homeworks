@@ -1,6 +1,7 @@
 let widget = document.querySelector(".chat-widget");
 let messages = widget.querySelector(".chat-widget__messages");
 let input = document.getElementById("chat-widget__input");
+
 let askQuastionInSec = 30;
 let notActiveSec = 0;
 let timer;
@@ -44,7 +45,9 @@ widget.addEventListener("click", (e) => {
 
 input.addEventListener("keyup", (e) => {
     notActiveSec = 0;
+    input.value.trim();
     if(e.key === "Enter") {
+        input.value = input.value.trim();
         if(!input.value) {
             return;
         }
