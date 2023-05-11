@@ -2,25 +2,27 @@ let form = document.getElementById("form");
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    document.querySelector("#progress").value = 0;
+    
+    let xhr = new XMLHttpRequest;
+    xhr.upload = document.getElementById("file");
 
-    let formatData = new FormData(form);
-    let xhr = new XMLHttpRequest();
-
+    xhr.upload.onloadstart = () => {
+        document.getElementById("progress").value += 0.3;
+    }
     xhr.upload.onprogress = () => {
-        console.log(xhr.readyState);
-        document.querySelector("#progress").value += 0.3;
+        document.getElementById("progress").value += 0.3;
+    }
+
+    xhr.upload.onloadend = () => {
+        document.getElementById("progress").value += 0.4;
     }
 
     xhr.open("POST", "https://students.netoservices.ru/nestjs-backend/upload");
-    xhr.send(formatData);
+    xhr.send(new FormData(form));
 
-    xhr.onload = () =>{
-        document.querySelector("#progress").value = 1;
-        console.log(xhr.readyState);
-        if(xhr.status !== 200) {
-            console.log(JSON.parse(xhr.response).message);
-        }
+    xhr.onload = () => {
+        alert(JSON.parse(xhr.response).message);
+        document.getElementById("progress").value = 0;
     }
 
 })
